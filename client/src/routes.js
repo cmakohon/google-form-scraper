@@ -6,6 +6,7 @@ export default () => {
   return (
     <Switch>
       <Route exact path='/' component={HomePage}/>
+      <Route component={HomePage} />
     </Switch>
   )
 }
