@@ -4,6 +4,7 @@ import Github from './Github';
 import Scraper from "../scraper/Scraper";
 import axios from "axios/index";
 import {BarLoader} from 'react-spinners';
+import toastr from 'toastr';
 
 class HomePage extends Component {
   constructor(props, context) {
@@ -25,10 +26,17 @@ class HomePage extends Component {
     });
     axios.get('/api/scrapeGoogleForm/?formId=' + this.state.formId)
       .then(response => {
+        console.log(response);
         this.setState({
           scrapedForm: response.data,
           loadingForm: false
         })
+      })
+      .catch(error => {
+        this.setState({
+          loadingForm: false
+        });
+        toastr.error(error.response.data);
       });
   }
 

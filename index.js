@@ -23,8 +23,8 @@ function scrapeForm(formId, callBack) {
       let foundEntries = [];
 
       $('input, textarea').map((i, el) => {
-        if(el.attribs.name && el.attribs.name.includes("entry.") && !el.attribs.name.includes("_sentinel")) {
-          if(!foundEntries.includes(el.attribs.name)) {
+        if (el.attribs.name && el.attribs.name.includes("entry.") && !el.attribs.name.includes("_sentinel")) {
+          if (!foundEntries.includes(el.attribs.name)) {
             foundEntries.push(el.attribs.name);
             formInputs.push({
               id: i,
@@ -45,17 +45,22 @@ function scrapeForm(formId, callBack) {
       console.log(formResponse);
 
       callBack(formResponse);
+    } else {
+      callBack(response.statusCode);
     }
   });
 }
 
 // Put all API endpoints under '/api'
 app.get('/api/scrapeGoogleForm', (req, res) => {
-  console.log(`Hit /api/scrapeGoogleForm endpoint`);
   if (req.query.formId) {
-    console.log(req.query.formId);
-    scrapeForm(req.query.formId, function(data) {
-      res.json(data);
+    scrapeForm(req.query.formId, function (data) {
+      if (data === 404) {
+        res.status(data)
+          .send('Google form with id "' + req.query.formId + '" not found.')
+      } else {
+        res.json(data);
+      }
     });
   }
 });
@@ -63,7 +68,7 @@ app.get('/api/scrapeGoogleForm', (req, res) => {
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
 const port = process.env.PORT || 5000;

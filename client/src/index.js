@@ -8,6 +8,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'highlight.js/styles/monokai.css'
 import 'mdbreact/dist/css/mdb.css';
+import 'toastr/build/toastr.min.css';
 
 ReactDOM.render((
   <BrowserRouter>
