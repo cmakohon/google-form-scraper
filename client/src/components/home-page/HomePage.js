@@ -23,7 +23,7 @@ class HomePage extends Component {
     this.setState({
       loadingForm: true
     });
-    axios.get('/scrapeGoogleForm/?formId=' + this.state.formId)
+    axios.get('/api/scrapeGoogleForm/?formId=' + this.state.formId)
       .then(response => {
         this.setState({
           scrapedForm: response.data,
